@@ -200,6 +200,8 @@ let repr s =
           if c = quote then
             Buffer.add_char b '\\';
           Buffer.add_char b c
+        | '\\' ->
+          Buffer.add_string b "\\\\"
         | '\t' | '\n' | '\r' as c ->
           Buffer.add_string b (Char.escaped c)
         | '\x00'..'\x1f' (* c < ' ' *) | '\x7f' as c ->
