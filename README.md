@@ -3,7 +3,7 @@
 Escape strings in OCaml as if you were using Python.
 
 The function `Python_str_repr.repr` replicates the behavior of Python's
-`str.__repr__()` - that is, `str(s)` where `s` is a string.
+`str.__repr__()` - that is, `repr(s)` where `s` is a string.
 
 ## FAQ
 
