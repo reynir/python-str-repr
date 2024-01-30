@@ -21,7 +21,7 @@
  (description "\
 This library attempts to implement Python's str.__repr__() function. That is,
 string escaping as done in Python.")
- (depends ocaml dune (alcotest :with-test) (py :with-test))
+ (depends ocaml dune (alcotest :with-test) (py :with-test) (qcheck :with-test) (qcheck-alcotest :with-test))
  (tags (python)))
 
 ; See the complete stanza docs at https://dune.readthedocs.io/en/stable/dune-files.html#dune-project
