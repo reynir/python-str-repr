@@ -13,8 +13,13 @@ The function `Python_str_repr.repr` replicates the behavior of Python's
   characters (`'`, `"`) depending on the string contents. OCaml also prefers
   octal escapes (`\234`) for non-printable byte values while python uses hex
   escapes (`\x9c`). Finally, Python uses unicode escape sequences for
-  non-printable unicode characters (sorry, see next point) while OCaml strings
-  are byte sequences and not unicode aware.
-- **Why not support unicode?**  
-  I would love to! At the moment I don't have much experience or understanding
-  of unicode and utf-8.
+  non-printable unicode code points while OCaml strings are byte sequences and
+  not unicode aware.
+- **How about unicode support?**  
+  Glad you asked! This library assumes the input is a utf-8 encoded string. So
+  called *non-printable* code points are escaped appropriately according to
+  what Python considers *non-printable*. Unfortunately, what is considered
+  *non-printable* depends on the Unicode version Python was compiled with.
+  Luckily, `Python_str_repr` takes an optional argument `?unicode_version :
+  (int, int)` which is a pair of major and minor version. The default is to use
+  the version Uucp is compiled against.

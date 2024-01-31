@@ -14,6 +14,8 @@ bug-reports: "https://github.com/reynir/python-str-repr/issues"
 depends: [
   "ocaml"
   "dune" {>= "3.12"}
+  "uutf"
+  "uucp"
   "alcotest" {with-test}
   "py" {with-test}
   "qcheck" {with-test}

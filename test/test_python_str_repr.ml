@@ -1,9 +1,9 @@
 let repr = Python_str_repr.repr
 
+let make_test ?unicode_version (message, input, expected) =
+  message, `Quick, fun () -> Alcotest.(check string) message expected (repr ?unicode_version input)
+
 let test_repr =
-  let make_test (message, input, expected) =
-    message, `Quick, fun () -> Alcotest.(check string) message expected (repr input)
-  in
   List.map make_test [
     "empty", "", "''";
     "simple", "a", "'a'";
@@ -20,19 +20,22 @@ let test_repr =
     "mixed quotes, mainly double quotes", "\"\"\"'\"\"\"", {|'"""\'"""'|};
 ]
 
-let test_repr_fail =
-  let test_unicode_fails () =
-    try
-      Alcotest.(check string) "unicode 'æ'" "'æ'" (repr "æ")
-    with Invalid_argument _ ->
-      (* TODO *)
-      ()
-  in
-  ["unicode fails", `Quick, test_unicode_fails]
+let test_repr_unicode =
+  List.map make_test [
+    "unicode 'æ'", "æ", "'æ'";
+  ]
+
+let test_repr_unicode_version = [
+  make_test ~unicode_version:(13, 0)
+    ("'\\u061d' unicode version 13.0.0", "\u{061d}", "'\\u061d'");
+  (* assuming unicode version >= 14.0.0 *)
+  make_test ("'\\u061d' unicode version >= 14.0.0", "\u{061d}", "'\u{061d}'");
+]
 
 let test_suites = [
   "repr", test_repr;
-  "repr fail", test_repr_fail;
+  "repr unicode", test_repr_unicode;
+  "repr unicode versions", test_repr_unicode_version;
 ]
 
 let () =
