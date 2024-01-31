@@ -23,6 +23,7 @@ let test_repr =
 let test_repr_unicode =
   List.map make_test [
     "unicode 'æ'", "æ", "'æ'";
+    "unicode '\u{80}'", "\u{80}", "'\\x80'";
   ]
 
 let test_repr_unicode_version = [

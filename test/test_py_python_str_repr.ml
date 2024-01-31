@@ -28,16 +28,6 @@ let test_repr =
           Alcotest.(check string) input (py_repr input) (repr input)))
     inputs
 
-let test_repr_unicode =
-  let inputs = [
-    "\u{80}";
-  ]
-  in
-  List.map (fun input ->
-      Printf.sprintf "%S" input, `Quick, (fun () ->
-          Alcotest.(check string) input (py_repr input) (repr input)))
-    inputs
-
 let test_repr_qcheck =
   let valid_utf8 =
     let folder acc _index = function
@@ -61,7 +51,6 @@ let test_repr_qcheck =
 
 let test_suites = [
   "py repr", test_repr;
-  "py repr unicode", test_repr_unicode;
   "py repr qcheck", test_repr_qcheck;
 ]
 
