@@ -23,3 +23,9 @@ The function `Python_str_repr.repr` replicates the behavior of Python's
   Luckily, `Python_str_repr` takes an optional argument `?unicode_version :
   (int, int)` which is a pair of major and minor version. The default is to use
   the version Uucp is compiled against.
+- **How do I check what version of Unicode my Python deployment uses?**  
+  You can check with the following snippet of Python code:
+```Python
+import unicodedata
+unicodedata.unidata_version
+```
