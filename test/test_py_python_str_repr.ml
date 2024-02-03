@@ -31,10 +31,33 @@ let test_repr_qcheck =
     in
     Uutf.String.fold_utf_8 folder true
   in
+  let gen_utf8 =
+    let open QCheck2.Gen in
+    let uchar =
+      oneof
+        [
+          int_range 0x0000 0xD7FF ~origin:(Char.code 'E');
+          int_range 0xE000 0x10FFFF;
+        ]
+      >|= Uchar.of_int
+    in
+    list uchar >|= fun uchars ->
+    let size =
+      List.fold_left (fun sz uc -> sz + Uchar.utf_8_byte_length uc) 0 uchars
+    in
+    let b = Bytes.create size in
+    let size' =
+      List.fold_left
+        (fun pos uc -> pos + Bytes.set_utf_8_uchar b pos uc)
+        0 uchars
+    in
+    assert (size = size');
+    Bytes.unsafe_to_string b
+  in
   let test_case =
     QCheck2.Test.make
       ~print:(fun s -> Printf.sprintf "%S: %S vs %S" s (py_repr s) (repr s))
-      ~name:"repr qcheck" QCheck2.Gen.string
+      ~name:"repr qcheck" gen_utf8
       (fun s ->
         QCheck2.assume (valid_utf8 s);
         String.equal (py_repr s) (repr s))
